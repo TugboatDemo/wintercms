@@ -4,7 +4,11 @@ services:
         default: true
         commands:
             init:
-                - 
+                - apt-get update && apt-get install libzip-dev
+                - docker-php-ext-install zip
+                - docker-php-ext-enable opcache
             update:
                 - composer install --optimize-autoloader
                 - php artisan winter:install
+    mysql:
+        image: tugboatqa/mariadb:latest
