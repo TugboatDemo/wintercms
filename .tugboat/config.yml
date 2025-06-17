@@ -7,8 +7,13 @@ services:
                 - apt-get update && apt-get install libzip-dev
                 - docker-php-ext-install zip
                 - docker-php-ext-enable opcache
+                - a2enmod rewrite
+                - ln -snf $TUGBOAT_ROOT $DOCROOT
             update:
                 - composer install --optimize-autoloader
                 - php artisan winter:install
-    mysql:
+                - chgrp -R www-data /var/lib/tugboat/storage
+                - chmod 2775 /var/lib/tugboat/storage
+                - chmod -R g+w /var/lib/tugboat/storage
+    mariadb:
         image: tugboatqa/mariadb:latest
